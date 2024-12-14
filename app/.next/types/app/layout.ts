@@ -1,4 +1,4 @@
-// File: C:\Users\Ediso\Documents\GitHub\Akita_MentoringWeb\school-mentoring\app\app\layout.tsx
+// File: /Users/zerker/apps/Akita_MentoringWeb/app/app/layout.tsx
 import * as entry from '../../../app/layout.js'
 import type { ResolvingMetadata, ResolvingViewport } from 'next/dist/lib/metadata/types/metadata-interface.js'
 
