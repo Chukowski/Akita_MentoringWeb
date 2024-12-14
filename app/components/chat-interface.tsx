@@ -5,6 +5,7 @@ import { useLanguage } from '../contexts/LanguageContext'
 import { translations } from '../utils/translations'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
+import VoiceInput from './voice-input'
 
 interface Message {
   role: 'user' | 'assistant'
@@ -83,6 +84,7 @@ export default function ChatInterface({ isOpen, onClose }: ChatInterfaceProps) {
   const [conversations, setConversations] = useState<Conversation[]>([])
   const [selectedContent, setSelectedContent] = useState<string | null>(null)
   const [currentConversation, setCurrentConversation] = useState<string | null>(null)
+  const [isRecording, setIsRecording] = useState(false)
 
   useEffect(() => {
     // Load conversations from localStorage
@@ -142,6 +144,10 @@ export default function ChatInterface({ isOpen, onClose }: ChatInterfaceProps) {
   const startNewChat = () => {
     setMessages([])
     setCurrentConversation(null)
+  }
+
+  const handleTranscription = (text: string) => {
+    setInputMessage(text)
   }
 
   if (!isOpen) return null
@@ -277,11 +283,16 @@ export default function ChatInterface({ isOpen, onClose }: ChatInterfaceProps) {
               onChange={(e) => setInputMessage(e.target.value)}
               placeholder="Escribe tu pregunta aquí..."
               className="flex-1 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-              disabled={isLoading}
+              disabled={isLoading || isRecording}
+            />
+            <VoiceInput
+              onTranscription={handleTranscription}
+              isRecording={isRecording}
+              setIsRecording={setIsRecording}
             />
             <button
               type="submit"
-              disabled={isLoading}
+              disabled={isLoading || isRecording}
               className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors disabled:bg-blue-400 font-medium"
             >
               Enviar
